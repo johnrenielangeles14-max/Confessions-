@@ -3,23 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send a Confession</title>
+    <title>A Special Message for Es</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f2f5; }
-        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        textarea { width: 100%; height: 100px; margin-top: 10px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; box-sizing: border-box; }
-        button { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; width: 100%; }
-        button:hover { background-color: #0056b3; }
+        body { margin: 0; padding: 0; background-color: #ffebee; font-family: 'Arial', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; overflow-x: hidden; }
+        .heart { position: fixed; color: #ff4d6d; font-size: 20px; animation: float 5s infinite ease-in; opacity: 0; bottom: -5vh; }
+        @keyframes float { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); width: 85%; max-width: 450px; z-index: 10; transition: all 0.5s ease-in-out; }
+        h1 { color: #ff4d6d; font-size: 1.5rem; margin-bottom: 10px; }
+        p { color: #555; line-height: 1.6; font-size: 1rem; }
+        .buttons { margin-top: 20px; position: relative; height: 60px; display: flex; justify-content: center; align-items: center; }
+        button { padding: 12px 25px; font-size: 16px; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 2; }
+        #noBtn { background-color: #ccc; color: white; position: absolute; }
+        .letter-content { display: none; text-align: left; animation: fadeIn 1s; white-space: pre-line; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>Anonymous Confession</h2>
-        <p>Go ahead, tell me something...</p>
-        <form action="https://formspree.io/f/xgopkavd" method="POST">
-            <textarea name="message" placeholder="Write your confession here..." required></textarea>
-            <button type="submit">Send Anonymously</button>
-        </form>
+
+    <div class="container" id="card">
+        <div id="initial-view">
+            <h1>Congratulations on your Graduation, Es! 🎓</h1>
+            <p>You worked so hard, and I'm so proud of you. I've been wanting to tell you something for a long time...</p>
+            <p><strong>Will you read a short letter I wrote for you? ❤️</strong></p>
+            
+            <div class="buttons">
+                <button id="yesBtn" onclick="sendResponse()">Yes, I will</button>
+                <button id="noBtn" onmouseover="moveButton()">No</button>
+            </div>
+        </div>
+
+        <div id="letter-view" class="letter-content">
+            <h2 style="color: #ff4d6d; text-align: center;">Hi Es,</h2>
+            I’ve been thinking a lot lately about everything we’ve been through, especially while working on my research. I wanted to take a moment—now that you’re graduating—to tell you something I’ve kept in my heart for a while.
+
+            First, congratulations on your graduation! 🎓 I am so incredibly proud of you. But beyond your success today, I want to thank you for who you are to me. 
+
+            There were so many times when I felt overwhelmed, but you were the one person who truly understood me better than anyone else. In a world where people are always in a hurry to speak, you actually listened. You never invalidated my feelings, and you never interrupted my stories. For the first time, I didn't just feel like someone was 'there'—I felt recognized. I felt understood.
+
+            You taught me that love isn't just about being in the same room; it’s about being seen for who you really are. Honestly, choosing to love you is the best choice I have ever made. 
+
+            You’ve made my life better just by being in it, and I’d love to keep being by your side as you start this next chapter.
+
+            <p style="text-align: center; font-weight: bold;">Happy Graduation, Es. ❤️</p>
+        </div>
     </div>
+
+    <script>
+        // Floating hearts effect
+        setInterval(() => {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 300);
+
+        // Move the "No" button
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.left = (x - (window.innerWidth/2) + (btn.offsetWidth/2)) + 'px';
+            btn.style.top = (y - (window.innerHeight/2) + (btn.offsetHeight/2)) + 'px';
+        }
+
+        // Show the letter and send notification
+        function sendResponse() {
+            document.getElementById('initial-view').style.display = 'none';
+            document.getElementById('letter-view').style.display = 'block';
+            document.getElementById('card').style.maxWidth = '500px';
+
+            // Replace YOUR_ID_HERE with your Formspree ID
+            fetch('https://formspree.io/f/xgopkavd', {
+                method: 'POST',
+                body: JSON.stringify({ message: "Es is reading your letter!" }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+    </script>
 </body>
 </html>
