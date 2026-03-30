@@ -3,86 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Message for Es</title>
+    <title>For Es 🎓</title>
     <style>
-        body { margin: 0; padding: 0; background-color: #ffebee; font-family: 'Arial', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; overflow-x: hidden; }
-        .heart { position: fixed; color: #ff4d6d; font-size: 20px; animation: float 5s infinite ease-in; opacity: 0; bottom: -5vh; }
-        @keyframes float { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
-        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); width: 85%; max-width: 450px; z-index: 10; transition: all 0.5s ease-in-out; }
-        h1 { color: #ff4d6d; font-size: 1.5rem; margin-bottom: 10px; }
-        p { color: #555; line-height: 1.6; font-size: 1rem; }
-        .buttons { margin-top: 20px; position: relative; height: 60px; display: flex; justify-content: center; align-items: center; }
-        button { padding: 12px 25px; font-size: 16px; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        #yesBtn { background-color: #ff4d6d; color: white; z-index: 2; }
-        #noBtn { background-color: #ccc; color: white; position: absolute; }
-        .letter-content { display: none; text-align: left; animation: fadeIn 1s; white-space: pre-line; }
+        :root { --pink: #ff4d6d; --light-pink: #ffebee; }
+        body { margin: 0; background-color: var(--light-pink); font-family: 'Arial', sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; text-align: center; }
+        .container { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 85%; max-width: 450px; z-index: 10; position: relative; }
+        .phase { display: none; animation: fadeIn 0.5s; }
+        .phase.active { display: block; }
+        h2 { color: var(--pink); margin-bottom: 20px; }
+        button { padding: 12px 20px; margin: 10px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-blue { background: #007bff; color: white; }
+        .btn-green { background: #28a745; color: white; }
+        .btn-primary { background: var(--pink); color: white; }
+        .moving { position: absolute; }
+        .highlight { border: 4px solid gold; transform: scale(1.1); }
+        .heart-bg { position: fixed; color: var(--pink); opacity: 0.2; font-size: 20px; animation: float 6s infinite linear; top: 100vh; }
+        @keyframes float { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-110vh); opacity: 0; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .folder { font-size: 80px; cursor: pointer; transition: 0.3s; }
+        .folder:hover { transform: scale(1.1); }
+        .letter { text-align: left; font-size: 0.9rem; line-height: 1.5; white-space: pre-line; }
     </style>
 </head>
 <body>
 
-    <div class="container" id="card">
-        <div id="initial-view">
-            <h1>Congratulations on your Graduation, Es! 🎓</h1>
-            <p>You worked so hard, and I'm so proud of you. I've been wanting to tell you something for a long time...</p>
-            <p><strong>Will you read a short letter I wrote for you? ❤️</strong></p>
-            
-            <div class="buttons">
-                <button id="yesBtn" onclick="sendResponse()">Yes, I will</button>
-                <button id="noBtn" onmouseover="moveButton()">No</button>
-            </div>
-        </div>
-
-        <div id="letter-view" class="letter-content">
-            <h2 style="color: #ff4d6d; text-align: center;">Hi Es,</h2>
-            I’ve been thinking a lot lately about everything we’ve been through, especially while working on my research. I wanted to take a moment—now that you’re graduating—to tell you something I’ve kept in my heart for a while.
-
-            First, congratulations on your graduation! 🎓 I am so incredibly proud of you. But beyond your success today, I want to thank you for who you are to me. 
-
-            There were so many times when I felt overwhelmed, but you were the one person who truly understood me better than anyone else. In a world where people are always in a hurry to speak, you actually listened. You never invalidated my feelings, and you never interrupted my stories. For the first time, I didn't just feel like someone was 'there'—I felt recognized. I felt understood.
-
-            You taught me that love isn't just about being in the same room; it’s about being seen for who you really are. Honestly, choosing to love you is the best choice I have ever made. 
-
-            You’ve made my life better just by being in it, and I’d love to keep being by your side as you start this next chapter.
-
-            <p style="text-align: center; font-weight: bold;">Happy Graduation, Es. ❤️</p>
-        </div>
+<div class="container">
+    <div id="phase1" class="phase active">
+        <h2>What's my favorite color?</h2>
+        <button class="btn-blue" onclick="wrongColor()">Blue</button>
+        <button id="greenBtn" class="btn-green" onclick="nextPhase(2)">Green</button>
     </div>
 
-    <script>
-        // Floating hearts effect
-        setInterval(() => {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
-        }, 300);
+    <div id="phase2" class="phase">
+        <h2>When is my birthday?</h2>
+        <button id="m14" class="btn-primary" onclick="nextPhase(3)">March 14</button>
+        <button class="btn-primary" onclick="wrongDate()">March 15</button>
+    </div>
 
-        // Move the "No" button
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.left = (x - (window.innerWidth/2) + (btn.offsetWidth/2)) + 'px';
-            btn.style.top = (y - (window.innerHeight/2) + (btn.offsetHeight/2)) + 'px';
-        }
+    <div id="phase3" class="phase">
+        <h2>What is my favorite ulam?</h2>
+        <button class="btn-primary" onclick="nextPhase(4)">Chicken Adobo</button>
+        <button class="btn-primary" onclick="sadFace()">Pork Adobo</button>
+        <div id="sadEmoji" style="font-size: 40px; display:none;">☹️</div>
+    </div>
 
-        // Show the letter and send notification
-        function sendResponse() {
-            document.getElementById('initial-view').style.display = 'none';
-            document.getElementById('letter-view').style.display = 'block';
-            document.getElementById('card').style.maxWidth = '500px';
+    <div id="phase4" class="phase">
+        <h2>Do you love me?</h2>
+        <button class="btn-primary" onclick="loveYes()">Yes</button>
+        <button id="loveNo" class="btn-primary" onmouseover="moveNo('loveNo')">No</button>
+        <div id="bigSmile" style="font-size: 60px; display:none;">😊💖</div>
+    </div>
 
-            // Replace YOUR_ID_HERE with your Formspree ID
-            fetch('https://formspree.io/f/xgopkavd', {
-                method: 'POST',
-                body: JSON.stringify({ message: "Es is reading your letter!" }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-    </script>
+    <div id="phase5" class="phase">
+        <h2>Am I pogi? 😎</h2>
+        <button class="btn-primary" onclick="pogiResult()">You're so pogi</button>
+        <button class="btn-primary" onclick="pogiResult()">You're so handsome</button>
+        <div id="pogiEmoji" style="font-size: 50px; display:none;">😎🔥</div>
+    </div>
+
+    <div id="phase6" class="phase">
+        <h2>Will you be my valentine every year?</h2>
+        <button class="btn-primary" onclick="nextPhase(7)">Yes</button>
+        <button id="valNo" class="btn-primary" onmouseover="moveNo('valNo')">No</button>
+    </div>
+
+    <div id="phase7" class="phase">
+        <p>Thank you for your presence every time I felt alone and down. I will cherish those moments and I will choose you over anything. ❤️</p>
+        <button class="btn-primary" onclick="nextPhase(8)">Next</button>
+    </div>
+
+    <div id="phase8" class="phase">
+        <h2>Open this for your surprise...</h2>
+        <div class="folder" onclick="nextPhase(9)">📁</div>
+    </div>
+
+    <div id="phase9" class="phase" style="max-height: 70vh; overflow-y: auto;">
+        <div class="letter">
+            Hi Es,
+            I’ve been trying to find the right words for a while now, but honestly, no research paper or project could ever explain how much you mean to me. First off, a huge congratulations on your graduation! 🎓 I’m so incredibly proud of everything you’ve achieved and the hard work you’ve put in to get here.
+
+            But beyond the certificates and the celebration today, I wanted to tell you how much I appreciate you. There were so many moments—especially when the research got stressful and I felt like I was drowning in data—where I felt like I was just talking to a wall with everyone else. But with you, it was different. You never interrupted my stories. You never made me feel like my feelings were 'too much' or invalid. You just... understood.
+
+            Before you, I thought love was just about having someone stay by your side. But through you, I realized that real love is being recognized. It’s the way you look at me and actually see who I am, without me having to explain myself.
+
+            Choosing to love you, Es, is easily the best choice I’ve ever made. You didn't just help me finish my work; you made me feel like my voice actually mattered. I’m so lucky to know you, and I’d love to keep being the person who cheers the loudest for you as you start this next chapter.
+
+            Happy Graduation, Es. You're my favorite person. ❤️
+        </div>
+        <button class="btn-primary" onclick="nextPhase(10)">Click for one last thing...</button>
+    </div>
+
+    <div id="phase10" class="phase">
+        <div style="font-size: 60px; color: var(--pink);">❤️🧩❤️</div>
+        <h2 style="font-size: 3rem; letter-spacing: 5px;">ILOVEYOU</h2>
+    </div>
+</div>
+
+<script>
+    let currentPhase = 1;
+    let greenSize = 16;
+
+    function nextPhase(p) {
+        document.getElementById(`phase${currentPhase}`).classList.remove('active');
+        currentPhase = p;
+        document.getElementById(`phase${p}`).classList.add('active');
+        if(p === 10) sendFinalNotif();
+    }
+
+    function wrongColor() {
+        greenSize += 20;
+        document.getElementById('greenBtn').style.fontSize = greenSize + 'px';
+        document.getElementById('greenBtn').style.padding = (greenSize/2) + 'px';
+    }
+
+    function wrongDate() {
+        document.getElementById('m14').classList.add('highlight');
+    }
+
+    function sadFace() {
+        document.getElementById('sadEmoji').style.display = 'block';
+        setTimeout(() => nextPhase(4), 1500);
+    }
+
+    function loveYes() {
+        document.getElementById('bigSmile').style.display = 'block';
+        setTimeout(() => nextPhase(5), 1500);
+    }
+
+    function pogiResult() {
+        document.getElementById('pogiEmoji').style.display = 'block';
+        setTimeout(() => nextPhase(6), 1500);
+    }
+
+    function moveNo(id) {
+        const btn = document.getElementById(id);
+        btn.classList.add('moving');
+        btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+        btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+    }
+
+    function sendFinalNotif() {
+        fetch('https://formspree.io/f/xgopkavd', {
+            method: 'POST',
+            body: JSON.stringify({ message: "ES FINISHED THE 10 PHASES! ❤️" }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    // Floating Hearts
+    setInterval(() => {
+        const h = document.createElement('div');
+        h.classList.add('heart-bg');
+        h.innerHTML = '❤️';
+        h.style.left = Math.random() * 100 + 'vw';
+        h.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 6000);
+    }, 500);
+</script>
 </body>
 </html>
