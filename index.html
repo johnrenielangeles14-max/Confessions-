@@ -20,11 +20,11 @@
         .moving { position: fixed; z-index: 999; transition: 0.1s ease; }
         .troll-img { position: fixed; width: 120px; height: 120px; z-index: 100; pointer-events: none; animation: trollFade 1.5s forwards; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         
-        /* NEW: Moving Cart Styles */
+        .special-troll { position: fixed; width: 250px; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; border: 5px solid gold; border-radius: 15px; display: none; }
+
         #cartTrack { position: relative; height: 100px; width: 100%; border: 2px dashed #ff4d6d; border-radius: 15px; overflow: hidden; margin: 15px 0; background: #fff5f7; }
         #movingCart { position: absolute; font-size: 45px; cursor: pointer; top: 20px; animation: slide 2.5s infinite linear; }
         @keyframes slide { 0% { left: -50px; } 100% { left: 100%; } }
-
         @keyframes trollFade { 0% { opacity: 0; transform: scale(0.5); } 20% { opacity: 1; transform: scale(1.1); } 80% { opacity: 1; } 100% { opacity: 0; transform: translateY(-50px); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .heart-bg { position: fixed; color: var(--pink); opacity: 0.3; font-size: 20px; animation: float 6s infinite linear; top: 100vh; z-index: 1; }
@@ -33,6 +33,8 @@
     </style>
 </head>
 <body>
+
+<img id="diNgaImg" src="https://raw.githubusercontent.com/johnrenielangeles14-max/Confessions-/refs/heads/main/Messenger_creation_4D917440-1428-4D39-9944-FE593EB86C6B.jpeg" class="special-troll">
 
 <div class="container">
     <div id="phase1" class="phase active">
@@ -101,19 +103,19 @@
 
     <div id="phase11" class="phase">
         <h2>Ready ka na ba talaga?</h2>
-        <button class="btn-primary" onclick="alert('Sigurado ka?'); alert('Di nga?'); alert('Sige na nga...'); nextPhase(12)">Yes, open!</button>
+        <button class="btn-primary" onclick="readySurprise()">Yes, open!</button>
     </div>
 
     <div id="phase12" class="phase">
-        <p>Thank you for your presence in every time I felt alone and down. I will cherish those moments and I will choose you over anything. ❤️</p>
+        <p>Thank you for your presence in every time I felt alone and down. I will choose you over anything. ❤️</p>
         <button class="btn-primary" onclick="nextPhase(13)">Next</button>
     </div>
 
     <div id="phase13" class="phase">
-        <h2>Click to open...</h2>
+        <h2>Click her photo...</h2>
         <div onclick="nextPhase(14)" style="cursor: pointer;">
             <img src="https://raw.githubusercontent.com/johnrenielangeles14-max/Confessions-/refs/heads/main/Messenger_creation_A8B9FF64-B87C-4509-9FB5-AD1D255724BD.jpeg" 
-                 alt="Es Photo" style="width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--pink); object-fit: cover;">
+                 style="width: 150px; height: 150px; border-radius: 50%; border: 5px solid var(--pink); object-fit: cover;">
         </div>
     </div>
 
@@ -121,13 +123,9 @@
         <div class="letter">
             Hi Es,
             
-            I’ve been trying to find the right words for a while now, but honestly, no research paper or project could ever explain how much you mean to me. First off, a huge congratulations on your graduation! 🎓 I’m so incredibly proud of everything you’ve achieved.
+            [...Your Graduation Letter...]
 
-            There were so many moments—especially when the research got stressful—where I felt like I was drowning in data. But with you, it was different. You never made me feel like my feelings were 'too much'. You just understood.
-
-            Choosing to love you, Es, is easily the best choice I’ve ever made. You didn't just help me finish my work; you made me feel like my voice actually mattered. I’m so lucky to know you.
-
-            Happy Graduation, Es. You're my favorite person. ❤️
+            Happy Graduation, Es. ❤️
         </div>
         <button class="btn-primary" onclick="nextPhase(15)">One last thing...</button>
     </div>
@@ -167,7 +165,6 @@
         document.getElementById(`phase${currentPhase}`).classList.remove('active');
         currentPhase = p;
         document.getElementById(`phase${p}`).classList.add('active');
-        if(p === 15) sendFinalNotif();
     }
 
     function wrongColor() {
@@ -185,8 +182,13 @@
     }
 
     function checkMath() {
-        if(document.getElementById('mathAns').value == "25") nextPhase(8);
-        else showTroll();
+        if(document.getElementById('mathAns').value == "25") {
+            alert("CONGRATS KRISTA ALEXANDRA ROSERO PWEDE KANA TALAGA MAG COLLEGE NAKUHA MO NG TAMA");
+            nextPhase(8);
+        } else {
+            showTroll();
+            alert("ENGGKKKKKK MALI MALI");
+        }
     }
 
     function catchLogic() {
@@ -194,7 +196,6 @@
         else { document.getElementById('catchMe').style.position="static"; nextPhase(10); }
     }
 
-    /* NEW: Glitch Logic */
     function glitchButton() {
         showTroll();
         const btn = document.getElementById('fakeBtn');
@@ -207,12 +208,16 @@
         }, 1000);
     }
 
-    function sendFinalNotif() {
-        fetch('https://formspree.io/f/xgopkavd', {
-            method: 'POST',
-            body: JSON.stringify({ message: "Es finished! ❤️" }),
-            headers: { 'Content-Type': 'application/json' }
-        });
+    function readySurprise() {
+        alert('Sigurado ka?');
+        const troll = document.getElementById('diNgaImg');
+        troll.style.display = 'block';
+        setTimeout(() => {
+            alert('Di nga?');
+            troll.style.display = 'none';
+            alert('Sige na nga...');
+            nextPhase(12);
+        }, 100);
     }
 
     setInterval(() => {
